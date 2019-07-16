@@ -1,0 +1,33 @@
+# docker-compose.yml
+version: "3.7"
+services:
+
+    pgsql:
+      image: postgres:9.6
+      container_name: sf4-pgsql
+      ports:
+        - 5432:5432
+      volumes:
+        - ./data/pgsql:/var/lib/postgresql
+      environment:
+        POSTGRES_USER: pgusr
+        POSTGRES_PASSWORD: pgpwd
+        POSTGRES_DB: pgdb
+
+    sf4-nginx:
+      image: nginx:alpine
+      container_name: sf4-nginx
+      working_dir: /application
+      ports:
+       - "8000:80"
+      volumes:
+          - .:/application
+          - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+
+    sf4-php-fpm:
+      build: phpdocker/php-fpm
+      container_name: sf4-php-fpm
+      working_dir: /application
+      volumes:
+        - .:/application
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
