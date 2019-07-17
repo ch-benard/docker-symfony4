@@ -9,7 +9,10 @@ To use DOCKER-SYMFONY4, you need a recent version of git, docker and docker-comp
 ## How to create a SF4 project from scratch with DOCKER-SYMFONY4 ?
 
 1. Clone the docker-symfony4 repository
-*git clone https://github.com/ch-benard/docker-symfony4*
+
+```bash
+git clone https://github.com/ch-benard/docker-symfony4*
+```
 
 2. Start docker containters
 
