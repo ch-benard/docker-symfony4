@@ -42,6 +42,7 @@ mv /application/[our_new_project]*/.* /application
 (inside sf4-php-fpm bash)
 ```
 rm -Rf /application/[our_new_project]
+```
 
 7. Install the commonly required components
 (inside sf4-php-fpm bash)
