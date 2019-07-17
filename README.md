@@ -13,9 +13,9 @@ To use DOCKER-SYMFONY4, you need a recent version of git, docker and docker-comp
 
 2. Start docker containters
 
-*cd [location where you cloned the project]/docker-symfony4*
-
-*docker-compose up -d*
+```bash
+cd [location where you cloned the project]/docker-symfony4
+docker-compose up -d
 
 3. Connect to the sf4-php-fpm container where we will create our symfony4 application skeleton
 *docker-compose exec php-fpm bash*
