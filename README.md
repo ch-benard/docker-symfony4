@@ -16,36 +16,46 @@ To use DOCKER-SYMFONY4, you need a recent version of git, docker and docker-comp
 ```bash
 cd [location where you cloned the project]/docker-symfony4
 docker-compose up -d
+```
 
 3. Connect to the sf4-php-fpm container where we will create our symfony4 application skeleton
-*docker-compose exec php-fpm bash*
+```bash
+docker-compose exec php-fpm bash
+```
 
 4. Create the skeleton for the symfony project
 (inside sf4-php-fpm bash)
-*composer create-project symfony/skeleton [our_new_project]*
+```bash
+composer create-project symfony/skeleton [our_new_project]
+```
 
 5. Move the content of the skeleton into the root of the application
 When the *composer create-project* command is lauched, we cannot create our new application into the root folder directly because the installer deletes the content of the folder we're cloning into. Since it’s too risky, this option is not allowed. But unless we change the config of the working directory inside the *docker-composer.yml*, we need our new project to be in the root folder. The trick is then to move the content of the newly built skeleton of our application afterward from the [our_new_project] directory to the root directory (/application).
 
 (inside sf4-fphp-fpm bash)
+```bash
 mv /application/[our_new_project]/* /application
 mv /application/[our_new_project]*/.* /application
+```
 
 6. Remove the empty [our_new_project] directory
 (inside sf4-php-fpm bash)
-*rm -Rf /application/[our_new_project]*
+```
+rm -Rf /application/[our_new_project]
 
 7. Install the commonly required components
 (inside sf4-php-fpm bash)
 
-*cd /application*
-*composer require annotations*
-*composer require --dev profiler*
-*composer require twig*
-*composer require orm*
-*composer require form*
-*composer require form validator*
-*composer require maker-bundle*
+```bash
+cd /application
+composer require annotations
+composer require --dev profiler
+composer require twig
+composer require orm
+composer require form
+composer require form validator
+composer require maker-bundle
+```
 
 Feel free to add the ones you need.
 
@@ -53,8 +63,10 @@ Feel free to add the ones you need.
 Now lets create a controller to test a sample route to make sure everything works.
 
 (inside sf4-php-fpm bash)
-*cd /application*
-*bin/console make:controller WelcomeController*
+```bash
+cd /application
+bin/console make:controller WelcomeController
+```
 
 Now, type the following URL. The port is the one we set up in the docker-compose.yml – If you check the dictionary of the ngix config, you can see that port 8000 maps the 80, which is the usual webserver port.
 
@@ -65,32 +77,43 @@ Finally, to sync the database, you need to update the .env file with the variabl
 
 .env file that has been generated when requiring the orm package in Symfony4.
 
+```
 DATABASE_URL=pgsql://pgusr:pgpwd@127.0.0.1:5432/pgdb
+```
+
 So if you check the *docker-compose.yml* file, you’ll see the credentials under the pgsql configuration. So change the file to
 
+```
 DATABASE_URL=pgsql://pgusr:pgpwd@pgsql:5432/pgdb
+```
 
 Finally, let’s restart the containers
 
 (from the host)
 you need to cd first to where your docker-compose.yml file lives
-*docker-compose down*
-*docker-compose up -d*
-*docker-compose exec php-fpm bash*
+```bash
+docker-compose down
+docker-compose up -d
+docker-compose exec php-fpm bash
+```
 
 Now inside the bash, you should be able to create the schema
 
 (inside php-fpm bash)
-*bin/console doc:sch:crea*
+```bash
+bin/console doc:sch:crea
+```
 
 You can connect an external database client such as pgadmin or dbeaver.
 
 For the credentials remember to put again the ones we set in the mysql image.
 
+```
 Host: 0.0.0.0
 Username: dbusr
 Password: dbpwd
 Port: 5432
+```
 
 ## Docker compose cheatsheet
 
